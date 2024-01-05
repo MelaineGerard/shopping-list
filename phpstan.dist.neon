@@ -1,0 +1,15 @@
+parameters:
+    level: 9
+    paths:
+        - src
+    excludePaths:
+        - tests
+        - .ddev
+    symfony:
+        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+    strictRules:
+        noVariableVariables: false
+
+    reportUnmatchedIgnoredErrors: false
