@@ -20,5 +20,17 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    Aws\S3\S3Client:
+        arguments:
+            - version: 'latest'
+              region: '%env(AWS_REGION)%'
+              endpoint: '%env(AWS_ENDPOINT)%'
+              url: '%env(AWS_URL)%'
+              use_path_style_endpoint: true
+              credentials:
+                  key: '%env(AWS_KEY)%'
+                  secret: '%env(AWS_SECRET)%'
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

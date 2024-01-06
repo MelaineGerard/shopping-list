@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>{{ item.name }}</h1>
+        </div>
+        <div class="card-body">
+            <p class="text-justify">{{ item.description }}</p>
+            {% if item.images is not empty %}
+                <div class="row mt-4">
+                    <div id="itemCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                            {% for image in item.images %}
+                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ getFileUrl(image) }}" class="d-block w-100" alt="...">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#itemCarousel"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Précédent</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#itemCarousel"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Suivant</span>
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+    {{ item.name }}
+{% endblock %}
+
