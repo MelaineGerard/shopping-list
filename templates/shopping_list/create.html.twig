@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if shoppingList.id is not null %}
+        Modifier la liste de course {{ shoppingList.name }}
+    {% else %}
+        Créer une liste de course
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            {% if shoppingList.id is not null %}
+                Modifier la liste de course {{ shoppingList.name }}
+            {% else %}
+                Créer une liste de course
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+

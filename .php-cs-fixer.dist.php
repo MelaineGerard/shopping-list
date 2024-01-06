@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->ignoreVCSIgnored(true)
-    ->exclude('tests/Fixtures')
     ->in(__DIR__)
     ->append([
         __DIR__ . '/dev-tools/doc.php',
@@ -26,6 +25,7 @@ $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(true)
     ->setRules([
+        '@PHP83Migration' => true,
         '@PHP82Migration' => true,
         '@PHP81Migration' => true,
         '@PHP80Migration:risky' => true,

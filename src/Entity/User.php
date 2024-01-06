@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +31,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private string $password;
+
+    /**
+     * @var Collection<int, ShoppingList>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ShoppingList::class, orphanRemoval: true)]
+    private Collection $shoppingLists;
+
+    public function __construct()
+    {
+        $this->shoppingLists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,4 +96,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function eraseCredentials(): void {}
+
+    /**
+     * @return Collection<int, ShoppingList>
+     */
+    public function getShoppingLists(): Collection
+    {
+        return $this->shoppingLists;
+    }
+
+    public function addShoppingList(ShoppingList $shoppingList): static
+    {
+        if (!$this->shoppingLists->contains($shoppingList)) {
+            $this->shoppingLists->add($shoppingList);
+            $shoppingList->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShoppingList(ShoppingList $shoppingList, EntityManagerInterface $entityManager): static
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->shoppingLists->removeElement($shoppingList) && $shoppingList->getUser() === $this) {
+            // On supprime la liste de courses de l'utilisateur
+            $entityManager->remove($shoppingList);
+            $entityManager->flush();
+        }
+
+        return $this;
+    }
 }
