@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if item.id is not null %}
+        Modifier l'objet {{ item.name }}
+    {% else %}
+        Créer un objet
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            {% if item.id is not null %}
+                Modifier l'objet {{ item.name }}
+            {% else %}
+                Créer un objet
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
