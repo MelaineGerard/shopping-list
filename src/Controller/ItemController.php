@@ -83,6 +83,7 @@ class ItemController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/delete/{id}', name: 'delete')]
     public function delete(Item $item): Response
     {

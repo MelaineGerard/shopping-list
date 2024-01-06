@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +29,17 @@ class Item
      */
     #[ORM\Column(type: Types::JSON)]
     private array $images = [];
+
+    /**
+     * @var Collection<int, ShoppingList>
+     */
+    #[ORM\ManyToMany(targetEntity: ShoppingList::class, mappedBy: 'items')]
+    private Collection $shoppingLists;
+
+    public function __construct()
+    {
+        $this->shoppingLists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,6 +91,33 @@ class Item
     public function addImage(string $image): static
     {
         $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ShoppingList>
+     */
+    public function getShoppingLists(): Collection
+    {
+        return $this->shoppingLists;
+    }
+
+    public function addShoppingList(ShoppingList $shoppingList): static
+    {
+        if (!$this->shoppingLists->contains($shoppingList)) {
+            $this->shoppingLists->add($shoppingList);
+            $shoppingList->addItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShoppingList(ShoppingList $shoppingList): static
+    {
+        if ($this->shoppingLists->removeElement($shoppingList)) {
+            $shoppingList->removeItem($this);
+        }
 
         return $this;
     }

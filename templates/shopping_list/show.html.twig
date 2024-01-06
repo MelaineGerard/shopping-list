@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>{{ shoppingList.name }}</h1>
+        </div>
+        <div class="card-body">
+            {% if shoppingList.items|length != 0 %}
+            <ul class="list-group">
+                {% for item in shoppingList.items %}
+                    <li class="list-group-item">{{ item.name }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <h4>Aucun article dans la liste</h4>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+    {{ shoppingList.name }}
+{% endblock %}
+
