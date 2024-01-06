@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  shopping:
+    ports:
+      - "9001:80"
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    image: shopping:latest
+    container_name: shopping
+    volumes:
+      - ./:/var/www/shopping:rw
+    tty: true
+    labels:
+      - traefik.http.routers.shopping.rule=Host(`shopping.melaine-gerard.fr`)
+      - traefik.http.routers.shopping.tls=true
+      - traefik.http.routers.shopping.tls.certresolver=default
+      - traefik.port=80
+      - "traefik.enable=true"
+    networks:
+      - local
+networks:
+  local:
+    external: true
