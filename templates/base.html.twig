@@ -16,6 +16,9 @@
 </head>
 <body>
 {% include 'partials/navbar.html.twig' %}
-{% block body %}{% endblock %}
+<div class="container mt-4">
+    {% include 'partials/alerts.html.twig' %}
+    {% block body %}{% endblock %}
+</div>
 </body>
 </html>

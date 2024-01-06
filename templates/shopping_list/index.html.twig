@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des listes de courses{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Liste des listes de courses</h1>
+    <div class="d-flex justify-content-end">
+        <a href="{{ path('app_shoppinglist_create') }}" class="btn btn-primary">Ajouter une liste de course</a>
+    </div>
+    <table class="table table-striped table-bordered mt-4">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Nombre d'objets</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for shoppingList in shoppingLists %}
+            <tr>
+                <th scope="row">{{ shoppingList.id }}</th>
+                <td>{{ shoppingList.name }}</td>
+                <td>{{ shoppingList.items|length }} objets</td>
+                <td>
+                    <a href="{{ path('app_shoppinglist_show', {id: shoppingList.id}) }}" class="btn btn-primary">Voir</a>
+                    <a href="{{ path('app_shoppinglist_edit', {id: shoppingList.id}) }}" class="btn btn-warning">Modifier</a>
+                    <a href="{{ path('app_shoppinglist_delete', {id: shoppingList.id}) }}" class="btn btn-danger">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
